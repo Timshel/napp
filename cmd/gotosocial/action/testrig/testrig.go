@@ -41,6 +41,7 @@ import (
 	"github.com/superseriousbusiness/gotosocial/internal/log"
 	"github.com/superseriousbusiness/gotosocial/internal/metrics"
 	"github.com/superseriousbusiness/gotosocial/internal/middleware"
+	"github.com/superseriousbusiness/gotosocial/internal/napp"
 	"github.com/superseriousbusiness/gotosocial/internal/oidc"
 	tlprocessor "github.com/superseriousbusiness/gotosocial/internal/processing/timeline"
 	"github.com/superseriousbusiness/gotosocial/internal/state"
@@ -170,6 +171,12 @@ var Start action.GTSAction = func(ctx context.Context) error {
 		middleware.ExtraHeaders(),
 	}...)
 
+	// create and start the proxy using the other services we've created so far
+	napper := napp.NewNapper(ctx, clientWorker, dbService, nil, mediaManager, transportController, nil)
+	if err := napper.Start(); err != nil {
+		return fmt.Errorf("error starting napper: %s", err)
+	}
+
 	// Instantiate Content-Security-Policy
 	// middleware, with extra URIs.
 	cspExtraURIs := make([]string, 0)
@@ -177,6 +184,7 @@ var Start action.GTSAction = func(ctx context.Context) error {
 	// Probe storage to check if extra URI is needed in CSP.
 	// Error here means something is wrong with storage.
 	storageCSPUri, err := state.Storage.ProbeCSPUri(ctx)
+
 	if err != nil {
 		return fmt.Errorf("error deriving Content-Security-Policy uri from storage: %w", err)
 	}

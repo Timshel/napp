@@ -51,6 +51,7 @@ import (
 	"github.com/superseriousbusiness/gotosocial/internal/httpclient"
 	"github.com/superseriousbusiness/gotosocial/internal/log"
 	"github.com/superseriousbusiness/gotosocial/internal/media"
+	"github.com/superseriousbusiness/gotosocial/internal/napp"
 	"github.com/superseriousbusiness/gotosocial/internal/oauth"
 	"github.com/superseriousbusiness/gotosocial/internal/oidc"
 	"github.com/superseriousbusiness/gotosocial/internal/processing"
@@ -223,7 +224,6 @@ var Start action.GTSAction = func(ctx context.Context) error {
 	/*
 		HTTP router initialization
 	*/
-
 	router, err := router.New(ctx)
 	if err != nil {
 		return fmt.Errorf("error creating router: %s", err)
@@ -270,6 +270,12 @@ var Start action.GTSAction = func(ctx context.Context) error {
 	// not S3-backed storage; check for this.
 	if storageCSPUri != "" {
 		cspExtraURIs = append(cspExtraURIs, storageCSPUri)
+	}
+
+	// create and start the proxy using the other services we've created so far
+	napper := napp.NewNapper(ctx, clientWorker, dbService, dbService.GetConn(), mediaManager, transportController, typeConverter)
+	if err := napper.Start(); err != nil {
+		return fmt.Errorf("error starting napper: %s", err)
 	}
 
 	// Add any extra CSP URIs from config.

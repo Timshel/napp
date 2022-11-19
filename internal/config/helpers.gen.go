@@ -2500,6 +2500,7 @@ func GetAdvancedRateLimitRequests() int { return global.GetAdvancedRateLimitRequ
 // SetAdvancedRateLimitRequests safely sets the value for global configuration 'AdvancedRateLimitRequests' field
 func SetAdvancedRateLimitRequests(v int) { global.SetAdvancedRateLimitRequests(v) }
 
+<<<<<<< HEAD
 // GetAdvancedRateLimitExceptions safely fetches the Configuration value for state's 'AdvancedRateLimitExceptions' field
 func (st *ConfigState) GetAdvancedRateLimitExceptions() (v []string) {
 	st.mutex.RLock()
@@ -3899,3 +3900,78 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
+// GetNappNitterHost safely fetches the Configuration value for state's 'NappNitterHost' field
+func (st *ConfigState) GetNappNitterHost() (v string) {
+	st.mutex.Lock()
+	v = st.config.NappNitterHost
+	st.mutex.Unlock()
+	return
+}
+
+// SetNappNitterHost safely sets the Configuration value for state's 'NappNitterHost' field
+func (st *ConfigState) SetNappNitterHost(v string) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.NappNitterHost = v
+	st.reloadToViper()
+}
+
+// NappNitterHostFlag returns the flag name for the 'NappNitterHost' field
+func NappNitterHostFlag() string { return "napp-nitter-host" }
+
+// GetNappNitterHost safely fetches the value for global configuration 'NappNitterHost' field
+func GetNappNitterHost() string { return global.GetNappNitterHost() }
+
+// SetNappNitterHost safely sets the value for global configuration 'NappNitterHost' field
+func SetNappNitterHost(v string) { global.SetNappNitterHost(v) }
+
+// GetNappUserPassword safely fetches the Configuration value for state's 'NappUserPassword' field
+func (st *ConfigState) GetNappUserPassword() (v string) {
+	st.mutex.Lock()
+	v = st.config.NappUserPassword
+	st.mutex.Unlock()
+	return
+}
+
+// SetNappUserPassword safely sets the Configuration value for state's 'NappUserPassword' field
+func (st *ConfigState) SetNappUserPassword(v string) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.NappUserPassword = v
+	st.reloadToViper()
+}
+
+// NappUserPasswordFlag returns the flag name for the 'NappUserPassword' field
+func NappUserPasswordFlag() string { return "napp-user-password" }
+
+// GetNappUserPassword safely fetches the value for global configuration 'NappUserPassword' field
+func GetNappUserPassword() string { return global.GetNappUserPassword() }
+
+// SetNappUserPassword safely sets the value for global configuration 'NappUserPassword' field
+func SetNappUserPassword(v string) { global.SetNappUserPassword(v) }
+
+// GetNappPollFrequency safely fetches the Configuration value for state's 'NappPollFrequency' field
+func (st *ConfigState) GetNappPollFrequency() (v int) {
+	st.mutex.Lock()
+	v = st.config.NappPollFrequency
+	st.mutex.Unlock()
+	return
+}
+
+// SetNappPollFrequency safely sets the Configuration value for state's 'NappPollFrequency' field
+func (st *ConfigState) SetNappPollFrequency(v int) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.NappPollFrequency = v
+	st.reloadToViper()
+}
+
+// NappPollFrequencyFlag returns the flag name for the 'NappPollFrequency' field
+func NappPollFrequencyFlag() string { return "napp-poll-frequency" }
+
+// GetNappPollFrequency safely fetches the value for global configuration 'NappPollFrequency' field
+func GetNappPollFrequency() int { return global.GetNappPollFrequency() }
+
+// SetNappPollFrequency safely sets the value for global configuration 'NappPollFrequency' field
+func SetNappPollFrequency(v int) { global.SetNappPollFrequency(v) }

@@ -166,6 +166,10 @@ type Configuration struct {
 	AdvancedCSPExtraURIs         []string      `name:"advanced-csp-extra-uris" usage:"Additional URIs to allow when building content-security-policy for media + images."`
 	AdvancedHeaderFilterMode     string        `name:"advanced-header-filter-mode" usage:"Set incoming request header filtering mode."`
 
+	NappNitterHost       string   `name:"napp-nitter-host" usage:"Hostname of the nitter instance to use"`
+	NappUserPassword     string   `name:"napp-user-password" usage:"Password to use for the created user"`
+	NappPollFrequency    int   	`name:"napp-poll-frequency" usage:"Polling frequency in minutes"`
+
 	// HTTPClient configuration vars.
 	HTTPClient HTTPClientConfiguration `name:"http-client"`
 
